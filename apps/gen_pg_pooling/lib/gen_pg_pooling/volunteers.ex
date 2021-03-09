@@ -1,5 +1,5 @@
 defmodule GenPgPooling.Volunteers do
-  import Ecto.Query, warn: false
+  import Ecto.Query
   alias GenPgPooling.Repo
 
   alias GenPgPooling.Volunteers.Volunteer
@@ -11,6 +11,11 @@ defmodule GenPgPooling.Volunteers do
   end
 
   def list_volunteers do
+    Repo.all(from v in Volunteer, order_by: [desc: v.id])
+  end
+
+  def list_volunteers_delay(delay) do
+    Repo.query("SELECT sleep(#{delay})")
     Repo.all(from v in Volunteer, order_by: [desc: v.id])
   end
 

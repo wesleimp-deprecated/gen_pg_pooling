@@ -16,7 +16,7 @@
   "editable": true,
   "gnetId": 6742,
   "graphTooltip": 1,
-  "iteration": 1615321992727,
+  "iteration": 1615329770047,
   "links": [],
   "panels": [
     {
@@ -963,10 +963,10 @@
         "current": true,
         "hideEmpty": true,
         "hideZero": true,
-        "max": false,
-        "min": false,
+        "max": true,
+        "min": true,
         "show": true,
-        "total": true,
+        "total": false,
         "values": true
       },
       "lines": true,
@@ -1607,5 +1607,5 @@
   "timezone": "",
   "title": "PostgreSQL Stats",
   "uid": "XlTsIjdZk",
-  "version": 3
+  "version": 4
 }
