@@ -1,0 +1,30 @@
+<h1>Volunteers</h1>
+<div>
+  <button class="button" phx-click="create-volunteer">Create volunteer</button>
+
+  <table class="table">
+    <thead>
+      <th>Name</th>
+      <th>Age</th>
+      <th>PID</th>
+      <th></th>
+    </thead>
+    <tbody id="volunteers" phx-update="prepend">
+      <%= for volunteer <- @volunteers do %>
+        <tr id="<%= volunteer.id %>">
+          <td><%= volunteer.name %></td>
+          <td><%= volunteer.age %></td>
+          <td><%= if is_nil(volunteer.pid), do: "", else: inspect(volunteer.pid) %></td>
+          <td>
+            <button class="button"
+                    phx-value-id="<%= volunteer.id %>"
+                    phx-click="toggle-supervisor"
+                    phx-value-action="<%= if is_nil(volunteer.pid), do: "add", else: "remove" %>">
+              <%= if is_nil(volunteer.pid), do: "Add supervisor", else: "Remove supervisor" %>
+            </button>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

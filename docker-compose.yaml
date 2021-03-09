@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    ports:
+      - "4000:4000"
+    volumes:
+      - ".:/app"
+      - "app-build:/app/_build"
+      - "app-deps:/app/deps"
+      - "node-deps:/app/apps/gen_pg_pooling_web/assets/node_modules"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gen_pg_pooling_dev
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  postgres_exporter:
+    image: wrouesnel/postgres_exporter:v0.7.0
+    ports:
+      - '9187:9187'
+    depends_on:
+      - postgres
+    environment:
+      DATA_SOURCE_USER: postgres
+      DATA_SOURCE_PASS: postgres
+      DATA_SOURCE_URI: postgres:5432/?sslmode=disable
+
+  grafana:
+    image: grafana/grafana:6.4.4
+    depends_on:
+      - prometheus
+    ports:
+      - '3000:3000'
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./docker/grafana/:/etc/grafana/provisioning/
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+
+  prometheus:
+    image: prom/prometheus:v2.13.0
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./docker/prometheus/:/etc/prometheus/
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/config.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+
+
+volumes:
+  pg-data:
+  app-build:
+  app-deps:
+  node-deps:
+  prometheus-data:
+  grafana-data:
