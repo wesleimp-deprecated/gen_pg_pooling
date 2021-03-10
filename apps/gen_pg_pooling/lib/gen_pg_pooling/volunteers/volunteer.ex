@@ -6,7 +6,6 @@ defmodule GenPgPooling.Volunteers.Volunteer do
   alias GenPgPooling.Volunteers.Volunteer
 
   @fields_to_export ~w(id name age)a
-
   @derive {Jason.Encoder, only: @fields_to_export}
 
   schema "volunteers" do

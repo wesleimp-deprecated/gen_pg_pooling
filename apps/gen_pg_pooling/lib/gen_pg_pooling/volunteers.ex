@@ -19,6 +19,20 @@ defmodule GenPgPooling.Volunteers do
     Repo.all(from v in Volunteer, order_by: [desc: v.id])
   end
 
+  def update_age do
+    Repo.query("SELECT sleep(#{Enum.random(200..3000)})")
+
+    {:ok, volunteer} =
+      Repo.all(from(v in Volunteer))
+      |> List.first()
+      |> Volunteer.changeset(%{
+        age: Enum.random(15..30)
+      })
+      |> Repo.update()
+
+    volunteer
+  end
+
   def get_volunteer!(id), do: Repo.get!(Volunteer, id)
 
   def create_volunteer(attrs \\ %{}) do

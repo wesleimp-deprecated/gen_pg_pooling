@@ -52,4 +52,8 @@ defmodule GenPgPoolingWeb.Telemetry do
       # {GenPgPoolingWeb, :count_users, []}
     ]
   end
+
+  def handle_event([:gen_pg_pooling, :repo, :query], measurements, metadata, config) do
+    IO.inspect(binding())
+  end
 end

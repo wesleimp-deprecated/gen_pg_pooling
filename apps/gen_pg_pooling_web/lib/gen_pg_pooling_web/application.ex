@@ -17,6 +17,14 @@ defmodule GenPgPoolingWeb.Application do
 
     Faker.start()
 
+    :ok =
+      :telemetry.attach(
+        "gen-pg-pooling-handle-id",
+        [:gen_pg_pooling, :repo, :query],
+        &GenPgPoolingWeb.Telemetry.handle_event/4,
+        %{}
+      )
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: GenPgPoolingWeb.Supervisor]

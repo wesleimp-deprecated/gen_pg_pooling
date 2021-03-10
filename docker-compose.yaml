@@ -67,6 +67,15 @@ services:
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
 
+  cadvisor:
+    image: google/cadvisor:v0.33.0
+    ports:
+      - '8080:8080'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
 
 volumes:
   pg-data:

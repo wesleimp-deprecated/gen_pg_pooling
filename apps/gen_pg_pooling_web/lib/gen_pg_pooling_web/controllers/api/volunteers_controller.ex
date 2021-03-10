@@ -8,4 +8,12 @@ defmodule GenPgPoolingWeb.API.VolunteersController do
     |> put_status(200)
     |> json(volunteers)
   end
+
+  def update(conn, _params) do
+    volunteer = GenPgPooling.Volunteers.update_age()
+
+    conn
+    |> put_status(200)
+    |> json(volunteer)
+  end
 end

@@ -25,6 +25,7 @@ defmodule GenPgPoolingWeb.Router do
     pipe_through :api
 
     get "/volunteers", API.VolunteersController, :index
+    post "/volunteers", API.VolunteersController, :update
   end
 
   # Enables LiveDashboard only for development
